@@ -1,0 +1,13 @@
+{
+  "name": "@isolisp/dsl",
+  "version": "1.0.0",
+  "description": "Lisp DSL evaluator for isolisp",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["lisp", "dsl", "evaluator"],
+  "author": "",
+  "license": "ISC"
+}

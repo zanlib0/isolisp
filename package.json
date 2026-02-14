@@ -1,0 +1,27 @@
+{
+  "name": "isolisp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The idea of this project is to explore the concept of building an isomorphic JS implementation that would let a backend developer implement some frontend logic in the controller, send it over the wire to the frontend, and the frontend would be able to render it and execute things like validation without knowing anything about the logic itself. The frontend can provide some basic components, and a form library, and a lisp evaluator.",
+  "scripts": {
+    "dev:backend": "pnpm --filter backend dev",
+    "dev:frontend": "pnpm --filter frontend dev",
+    "dev": "pnpm run dev:backend & pnpm run dev:frontend",
+    "build:frontend": "pnpm --filter frontend build",
+    "test": "pnpm -r test",
+    "lint": "eslint apps/* packages/*",
+    "lint:fix": "eslint --fix apps/* packages/*"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^9.39.2",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^17.3.0"
+  },
+  "devDependencies": {
+    "@stylistic/eslint-plugin": "^5.8.0"
+  }
+}

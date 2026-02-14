@@ -27,6 +27,9 @@ importers:
 
   apps/backend:
     dependencies:
+      '@isolisp/dsl':
+        specifier: workspace:*
+        version: link:../../packages/dsl
       cors:
         specifier: ^2.8.5
         version: 2.8.6
@@ -36,6 +39,9 @@ importers:
 
   apps/frontend:
     dependencies:
+      '@isolisp/dsl':
+        specifier: workspace:*
+        version: link:../../packages/dsl
       formik:
         specifier: ^2.4.5
         version: 2.4.9(@types/react@18.3.28)(react@18.3.1)

@@ -3,9 +3,12 @@ import { Formik, Form } from 'formik'
 import TextInput from './components/TextInput'
 import SelectInput from './components/SelectInput'
 import './App.css'
+import { DynamicForm } from './components/DynamicForm'
 
 function App() {
   const [backendStatus, setBackendStatus] = useState(null)
+
+  const [peselFormSchema, setPeselFormSchema] = useState(null)
 
   useEffect(() => {
     // Check backend health on mount
@@ -15,11 +18,12 @@ function App() {
       .catch(err => console.error('Backend not available:', err))
   }, [])
 
-  const sampleOptions = [
-    { value: 'option1', label: 'Option 1' },
-    { value: 'option2', label: 'Option 2' },
-    { value: 'option3', label: 'Option 3' },
-  ]
+  useEffect(() => {
+    fetch('/api/pesel-schema')
+      .then(res => res.json())
+      .then(data => setPeselFormSchema(data))
+      .catch(err => console.error('Pesel form schema not available:', err))
+  }, [])
 
   return (
     <div className="App">
@@ -34,31 +38,7 @@ function App() {
       </header>
 
       <main>
-        <Formik
-          initialValues={{
-            textField: '',
-            selectField: '',
-          }}
-          onSubmit={() => {
-            // No-op: submission logic to be added later
-          }}
-        >
-          <Form>
-            <TextInput
-              name="textField"
-              label="Text Input Example"
-              placeholder="Enter some text..."
-            />
-
-            <SelectInput
-              name="selectField"
-              label="Select Input Example"
-              options={sampleOptions}
-            />
-
-            {/* No submit button - just demonstrating components */}
-          </Form>
-        </Formik>
+        {peselFormSchema && <DynamicForm schema={peselFormSchema} />}
       </main>
     </div>
   )

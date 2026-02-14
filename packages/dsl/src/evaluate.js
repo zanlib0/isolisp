@@ -1,17 +1,19 @@
-import { s } from './dsl'
-import * as std from './stdlib'
+import { s } from './dsl.js'
+import { std } from './stdlib.js'
 
 const isSymbol = value => typeof value?.s === 'string'
 const eqs = (a, b) => isSymbol(a) && isSymbol(b) && (a.s === b.s)
 const unsymbol = value => value.s
 
 const evalExpr = (expr, env) => {
-  if (['number', 'boolean', 'function'].includes(typeof expr)) return expr
+  if (['number', 'boolean', 'function', 'string'].includes(typeof expr)) return expr
 
   if (isSymbol(expr)) return env(expr)
 
   if (eqs(expr[0], s('define'))) return evalDefine(expr, env)
   if (eqs(expr[0], s('when'))) return evalWhen(expr, env)
+  if (eqs(expr[0], s('and'))) return evalAnd(expr, env)
+  if (eqs(expr[0], s('or'))) return evalOr(expr, env)
   if (eqs(expr[0], s('lambda'))) return evalLambda(expr, env)
 
   return apply(expr, env)
@@ -35,6 +37,26 @@ const evalWhen = ([_when, cond, cons, alt], env) => {
   else {
     return evalExpr(alt, env)
   }
+}
+
+const evalAnd = ([_and, ...conds], env) => {
+  const run = ([cond, ...rest]) => {
+    const value = evalExpr(cond, env)
+    if (!value) return value
+    return run(rest)
+  }
+
+  return run(conds)
+}
+
+const evalOr = ([_or, ...conds], env) => {
+  const run = ([cond, ...rest]) => {
+    const value = evalExpr(cond, env)
+    if (value) return value
+    return run(rest)
+  }
+
+  return run(conds)
 }
 
 const evalLambda = ([_lambda, params, body], env) => {

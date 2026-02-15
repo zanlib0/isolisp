@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import { DynamicForm } from './components/DynamicForm'
-import { prettyprint } from '@isolisp/dsl'
 
 function App() {
   const [backendStatus, setBackendStatus] = useState(null)

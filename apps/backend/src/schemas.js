@@ -1,6 +1,7 @@
 import { pesel, required, visiblePesel } from './rules.js'
 
 export const peselSchema = {
+  submit: { method: 'POST', url: '/api/pesel' },
   fields: [
     {
       name: 'fullName',

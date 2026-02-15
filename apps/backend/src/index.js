@@ -1,7 +1,8 @@
 import express from 'express'
 import cors from 'cors'
 
-import { peselSchema } from './schemas'
+import { peselSchema } from './schemas.js'
+import { dynamicValidate } from './validate.js'
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -15,6 +16,18 @@ app.get('/api/health', (req, res) => {
 
 app.get('/api/pesel-schema', (req, res) => {
   res.json(peselSchema)
+})
+
+app.post('/api/pesel', (req, res) => {
+  console.log(req.body)
+  const result = dynamicValidate(req.body, peselSchema)
+
+  if (result.ok) {
+    res.json(result)
+  }
+  else {
+    res.status(400).json(result)
+  }
 })
 
 app.listen(PORT, () => {

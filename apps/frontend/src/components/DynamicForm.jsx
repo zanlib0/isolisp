@@ -1,16 +1,26 @@
-import { evaluate, prettyprint } from '@isolisp/dsl'
+import { evaluate } from '@isolisp/dsl'
 import TextInput from './TextInput'
 import SelectInput from './SelectInput'
 import { Form, FormikProvider, useFormik } from 'formik'
 
 export const DynamicForm = ({ schema }) => {
-  const { fields } = schema
+  const { fields, submit } = schema
 
   const initialValues = Object.fromEntries(fields.map(field => ([field.name, ''])))
 
   const formik = useFormik({
     initialValues,
-    onSubmit: values => console.info(values),
+    onSubmit: async (values) => {
+      const result = await fetch(submit.url, {
+        method: submit.method,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      })
+
+      console.log(result)
+    },
   })
 
   const components = fields.flatMap(({ type, validations, visibility, ...rest }) => {

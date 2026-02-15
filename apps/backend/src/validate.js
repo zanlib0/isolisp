@@ -2,6 +2,10 @@ import { evaluate } from '@isolisp/dsl'
 
 class ValidationError extends Error { }
 
+/** Dynamically validate a map of values based on a Lisp schema.
+ * Returns a result type {ok, value}, where value is either a parsed
+ * object or the first encountered error.
+ */
 export const dynamicValidate = (data, schema) => {
   const { fields } = schema
 

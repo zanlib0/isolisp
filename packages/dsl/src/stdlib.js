@@ -1,3 +1,7 @@
+/**
+ * Standard library for our Lisp evaluator. Contains only the functions
+ * required to implement the validation of PESEL.
+ */
 export const std = {
   // util
   inspect: x => console.log(x) || x,

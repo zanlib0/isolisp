@@ -12,9 +12,22 @@ export const visiblePesel = [
   [s('eq'), r('identityDocument'), 'nationalId'],
 ]
 
+/**
+PESEL validation schema. In conventional Lisp this would look like:
+
+```lisp
+(lambda (value)
+  (define (digits (map (chars value) to-int))
+          (weights (list 1 3 7 9 1 3 7 9 1 3))
+          (sum (reduce (zip-with weights digits mul) 0 add))
+          (expected (mod (sub 10 (mod sum 10)) 10))
+    (and (eq (length value) 11)
+         (every digits is-int)
+         (eq (nth digits 10) expected))))
+```
+*/
 export const pesel = [
-  s('lambda'),
-  [s('value')],
+  s('lambda'), [s('value')],
   [s('define'), [
     [s('digits'), [s('map'), [s('chars'), s('value')], s('toInt')]],
     [s('weights'), [s('list'), 1, 3, 7, 9, 1, 3, 7, 9, 1, 3]],

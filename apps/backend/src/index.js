@@ -28,7 +28,10 @@ app.get('/api/pesel-schema', (req, res) => {
         name: 'identityDocument',
         label: 'Identity Document',
         type: 'select',
-        options: ['Passport', 'National Identity Document'],
+        options: [
+          { label: 'Passport', value: 'passport' },
+          { label: 'National Identity Document', value: 'nationalId' },
+        ],
         validations: [
           { rule: required, message: 'Identity document is required' },
         ],

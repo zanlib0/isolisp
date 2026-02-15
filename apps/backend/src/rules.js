@@ -9,7 +9,7 @@ export const required = [
 export const visiblePesel = [
   s('lambda'),
   [],
-  [s('eq'), r('identityDocument'), 'National Identity Document'],
+  [s('eq'), r('identityDocument'), 'nationalId'],
 ]
 
 export const pesel = [

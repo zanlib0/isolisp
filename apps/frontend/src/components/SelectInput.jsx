@@ -9,8 +9,8 @@ function SelectInput({ name, label, options, ...props }) {
       <Field as="select" id={name} name={name} {...props}>
         <option value="">Select an option...</option>
         {options.map(option => (
-          <option key={option} value={option}>
-            {option}
+          <option key={option.value} value={option.value}>
+            {option.label}
           </option>
         ))}
       </Field>

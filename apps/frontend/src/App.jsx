@@ -3,17 +3,7 @@ import './App.css'
 import { DynamicForm } from './components/DynamicForm'
 
 function App() {
-  const [backendStatus, setBackendStatus] = useState(null)
-
   const [peselFormSchema, setPeselFormSchema] = useState(null)
-
-  useEffect(() => {
-    // Check backend health on mount
-    fetch('/api/health')
-      .then(res => res.json())
-      .then(data => setBackendStatus(data))
-      .catch(err => console.error('Backend not available:', err))
-  }, [])
 
   useEffect(() => {
     fetch('/api/pesel-schema')
@@ -25,13 +15,7 @@ function App() {
   return (
     <div className="App">
       <header>
-        <h1>IsoLisp Form Builder</h1>
-        {backendStatus && (
-          <p className="status">
-            Backend Status: ✅
-            {backendStatus.status}
-          </p>
-        )}
+        <h1>Employee Form</h1>
       </header>
 
       <main>

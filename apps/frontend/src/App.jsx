@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react'
-import { Formik, Form } from 'formik'
-import TextInput from './components/TextInput'
-import SelectInput from './components/SelectInput'
 import './App.css'
 import { DynamicForm } from './components/DynamicForm'
+import { prettyprint } from '@isolisp/dsl'
 
 function App() {
   const [backendStatus, setBackendStatus] = useState(null)

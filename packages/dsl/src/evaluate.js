@@ -1,4 +1,4 @@
-import { s } from './dsl.js'
+import { s } from './utils.js'
 import { std } from './stdlib.js'
 
 const isSymbol = value => typeof value?.s === 'string'

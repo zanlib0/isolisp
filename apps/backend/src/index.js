@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 
-import { pesel, required, visiblePesel } from './rules.js'
+import { peselSchema } from './schemas'
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -14,40 +14,7 @@ app.get('/api/health', (req, res) => {
 })
 
 app.get('/api/pesel-schema', (req, res) => {
-  res.json({
-    fields: [
-      {
-        name: 'fullName',
-        label: 'Full Name',
-        type: 'input',
-        validations: [
-          { rule: required, message: 'Full name is required.' },
-        ],
-      },
-      {
-        name: 'identityDocument',
-        label: 'Identity Document',
-        type: 'select',
-        options: [
-          { label: 'Passport', value: 'passport' },
-          { label: 'National Identity Document', value: 'nationalId' },
-        ],
-        validations: [
-          { rule: required, message: 'Identity document is required' },
-        ],
-      },
-      {
-        name: 'pesel',
-        label: 'PESEL',
-        type: 'input',
-        visibility: visiblePesel,
-        validations: [
-          { rule: required, message: 'PESEL is required.' },
-          { rule: pesel, message: 'PESEL is invalid.' },
-        ],
-      },
-    ],
-  })
+  res.json(peselSchema)
 })
 
 app.listen(PORT, () => {

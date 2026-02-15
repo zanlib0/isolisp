@@ -12,7 +12,10 @@ function TextInput({ name, label, ...props }) {
         type="text"
         {...props}
       />
-      {meta.touched && meta.error && <div>{meta.error}</div>}
+
+      <div className="error">
+        {meta.touched && meta.error && meta.error}
+      </div>
     </div>
   )
 }

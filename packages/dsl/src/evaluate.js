@@ -5,10 +5,13 @@ const isSymbol = value => typeof value?.s === 'string'
 const eqs = (a, b) => isSymbol(a) && isSymbol(b) && (a.s === b.s)
 const unsymbol = value => value.s
 
-const evalExpr = (expr, env) => {
-  if (['number', 'boolean', 'function', 'string'].includes(typeof expr)) return expr
+const isReference = value => typeof value?.r === 'string'
+const unreference = value => value.r
 
-  if (isSymbol(expr)) return env(expr)
+const evalExpr = (expr, env) => {
+  if (['number', 'boolean', 'function', 'string', 'undefined'].includes(typeof expr)) return expr
+
+  if (isSymbol(expr) || isReference(expr)) return env(expr)
 
   if (eqs(expr[0], s('define'))) return evalDefine(expr, env)
   if (eqs(expr[0], s('when'))) return evalWhen(expr, env)
@@ -43,6 +46,7 @@ const evalAnd = ([_and, ...conds], env) => {
   const run = ([cond, ...rest]) => {
     const value = evalExpr(cond, env)
     if (!value) return value
+    if (rest.length === 0) return true
     return run(rest)
   }
 
@@ -53,6 +57,7 @@ const evalOr = ([_or, ...conds], env) => {
   const run = ([cond, ...rest]) => {
     const value = evalExpr(cond, env)
     if (value) return value
+    if (rest.length === 0) return false
     return run(rest)
   }
 
@@ -86,7 +91,12 @@ const apply = (expr, env) => {
   return fn(...args)
 }
 
-const defaultEnv = (a) => {
+const defaultEnv = context => (a) => {
+  if (isReference(a)) {
+    const ref = unreference(a)
+    return context[ref]
+  }
+
   const symbol = unsymbol(a)
 
   if (typeof std[symbol] === 'function') return std[symbol]
@@ -94,4 +104,4 @@ const defaultEnv = (a) => {
   throw new Error(`unbound, ${symbol}`)
 }
 
-export const evaluate = (term, env = defaultEnv) => evalExpr(term, env)
+export const evaluate = (term, context = {}) => evalExpr(term, defaultEnv(context))

@@ -1,4 +1,6 @@
 export const s = name => ({ s: name })
+export const r = name => ({ r: name })
+
 export const eq = (a, b) => [s('eq'), a, b]
 export const not = a => [s('not'), a]
 export const and = (...args) => [s('and'), ...args]

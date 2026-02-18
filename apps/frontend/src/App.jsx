@@ -1,25 +1,20 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import './App.css'
-import { DynamicForm } from './components/DynamicForm'
+import { PeselForm } from './PeselForm'
+import { OnboardingForm } from './OnboardingForm'
 
 function App() {
-  const [peselFormSchema, setPeselFormSchema] = useState(null)
-
-  useEffect(() => {
-    fetch('/api/pesel-schema')
-      .then(res => res.json())
-      .then(data => setPeselFormSchema(data))
-      .catch(err => console.error('Pesel form schema not available:', err))
-  }, [])
+  const [tab, setTab] = useState('')
 
   return (
     <div className="App">
-      <header>
-        <h1>Employee Form</h1>
-      </header>
-
+      <nav>
+        <button onClick={() => setTab('pesel')}>PeselForm</button>
+        <button onClick={() => setTab('onboarding')}>OnboardingForm</button>
+      </nav>
       <main>
-        {peselFormSchema && <DynamicForm schema={peselFormSchema} />}
+        {tab === 'pesel' && (<PeselForm />)}
+        {tab === 'onboarding' && (<OnboardingForm />)}
       </main>
     </div>
   )

@@ -1,6 +1,6 @@
-import { s, r, parse } from '@isolisp/dsl'
+import { s, r, lisp } from '@isolisp/dsl'
 
-export const requiredDsl = parse(`
+export const requiredDsl = lisp(`
 (lambda (value)
   (not (eq value "")))
 `)
@@ -11,7 +11,7 @@ export const required = [
   [s('not'), [s('eq'), s('value'), '']],
 ]
 
-export const visiblePeselDsl = parse(`
+export const visiblePeselDsl = lisp(`
   (lambda () (eq @identityDocument "nationalId"))
 `)
 
@@ -21,7 +21,7 @@ export const visiblePesel = [
   [s('eq'), r('identityDocument'), 'nationalId'],
 ]
 
-export const peselDsl = parse(`
+export const peselDsl = lisp(`
   (lambda (value)
     (define ((digits (map (chars value) toInt))
              (weights (list 1 3 7 9 1 3 7 9 1 3))

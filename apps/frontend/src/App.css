@@ -129,3 +129,33 @@ button:hover {
 .form-field select {
   cursor: pointer;
 }
+
+.radio-group {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.radio-option {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+.radio-option:has(input:checked) {
+  border-color: #007bff;
+  background: #f0f7ff;
+}
+
+.radio-option input[type="radio"] {
+  width: auto;
+  margin: 0 0.5rem 0 0;
+  position: relative;
+  top: 1.5px;
+  cursor: pointer;
+}

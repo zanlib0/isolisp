@@ -6,17 +6,26 @@ export const r = name => ({ r: name })
  * Inverse of prettyprint.
  * @vibecoded true
  */
-export const parse = (src) => {
+const SLOT = '\x00'
+
+export const lisp = (strings, ...slots) => {
+  const src = typeof strings === 'string'
+    ? strings
+    : strings.reduce((acc, str, i) =>
+        i < slots.length ? acc + str + `${SLOT}${i}${SLOT}` : acc + str, '')
+
   const isSpace = c => ' \t\n\r'.includes(c)
-  const isBreak = c => !c || isSpace(c) || '()'.includes(c)
+  const isBreak = c => !c || c === SLOT || isSpace(c) || '()'.includes(c)
   const drop = s => s.length > 0 && isSpace(s[0]) ? drop(s.slice(1)) : s
 
   const toAtom = tok =>
     tok[0] === '@'
       ? { r: tok.slice(1) }
-      : Number.isFinite(Number(tok))
-        ? Number(tok)
-        : { s: tok }
+      : tok === 'true' || tok === 'false'
+        ? tok === 'true' // boolean literal
+        : Number.isFinite(Number(tok))
+          ? Number(tok)
+          : { s: tok }
 
   const readToken = (s, acc = '') =>
     isBreak(s[0]) ? [toAtom(acc), s] : readToken(s.slice(1), acc + s[0])
@@ -28,6 +37,11 @@ export const parse = (src) => {
         ? readString(s.slice(2), acc + s[1])
         : readString(s.slice(1), acc + s[0])
 
+  const readSlot = s => {
+    const end = s.indexOf(SLOT, 1)
+    return [slots[Number(s.slice(1, end))], s.slice(end + 1)]
+  }
+
   const readList = (s, acc = []) => {
     const rest = drop(s)
     if (rest[0] === ')') return [acc, rest.slice(1)]
@@ -35,8 +49,9 @@ export const parse = (src) => {
     return readList(remaining, [...acc, val])
   }
 
-  const read = (s) => {
+  const read = s => {
     const rest = drop(s)
+    if (rest[0] === SLOT) return readSlot(rest)
     if (rest[0] === '(') return readList(rest.slice(1))
     if (rest[0] === '"') return readString(rest.slice(1))
     return readToken(rest)

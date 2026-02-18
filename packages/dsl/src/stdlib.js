@@ -13,6 +13,8 @@ export const std = {
   sub: (x, y) => x - y,
   mul: (x, y) => x * y,
   mod: (x, y) => x % y,
+  floor: x => Math.floor(x),
+  ceil: x => Math.ceil(x),
 
   // strings
   chars: s => s.split(''),
@@ -20,6 +22,10 @@ export const std = {
   // comparisons
   not: x => !x,
   eq: (x, y) => x === y,
+  lt: (x, y) => x < y,
+  lte: (x, y) => x <= y,
+  gt: (x, y) => x > y,
+  gte: (x, y) => x >= y,
 
   // type conversions
   toInt: x => parseInt(x),

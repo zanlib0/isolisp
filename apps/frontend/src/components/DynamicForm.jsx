@@ -1,6 +1,7 @@
 import { evaluate } from '@isolisp/dsl'
 import TextInput from './TextInput'
 import SelectInput from './SelectInput'
+import RadioInput from './RadioInput'
 import { Form, FormikProvider, useFormik } from 'formik'
 
 export const DynamicForm = ({ schema }) => {
@@ -39,6 +40,7 @@ export const DynamicForm = ({ schema }) => {
 
     if (type === 'input') return [<TextInput key={rest.name} validate={validate} {...rest} />]
     if (type === 'select') return [<SelectInput key={rest.name} validate={validate} {...rest} />]
+    if (type === 'radio') return [<RadioInput key={rest.name} validate={validate} {...rest} />]
   })
 
   return (

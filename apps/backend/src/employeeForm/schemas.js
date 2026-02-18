@@ -1,4 +1,4 @@
-import { pesel, required, visiblePesel } from './rules.js'
+import { peselDsl as pesel, requiredDsl as required, visiblePeselDsl as visiblePesel } from './rules.js'
 
 export const peselSchema = {
   submit: { method: 'POST', url: '/api/pesel' },

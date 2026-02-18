@@ -1,4 +1,9 @@
-import { s, r } from '@isolisp/dsl'
+import { s, r, parse } from '@isolisp/dsl'
+
+export const requiredDsl = parse(`
+(lambda (value)
+  (not (eq value "")))
+`)
 
 export const required = [
   s('lambda'),
@@ -6,26 +11,27 @@ export const required = [
   [s('not'), [s('eq'), s('value'), '']],
 ]
 
+export const visiblePeselDsl = parse(`
+  (lambda () (eq @identityDocument "nationalId"))
+`)
+
 export const visiblePesel = [
   s('lambda'),
   [],
   [s('eq'), r('identityDocument'), 'nationalId'],
 ]
 
-/**
-PESEL validation schema. In conventional Lisp this would look like:
+export const peselDsl = parse(`
+  (lambda (value)
+    (define ((digits (map (chars value) toInt))
+             (weights (list 1 3 7 9 1 3 7 9 1 3))
+             (sum (reduce (zipWith weights digits mul) 0 add))
+             (expected (mod (sub 10 (mod sum 10)) 10)))
+      (and (eq (length value) 11)
+           (every digits isInt)
+           (eq (nth digits 10) expected))))
+  `)
 
-```lisp
-(lambda (value)
-  (define (digits (map (chars value) to-int))
-          (weights (list 1 3 7 9 1 3 7 9 1 3))
-          (sum (reduce (zip-with weights digits mul) 0 add))
-          (expected (mod (sub 10 (mod sum 10)) 10))
-    (and (eq (length value) 11)
-         (every digits is-int)
-         (eq (nth digits 10) expected))))
-```
-*/
 export const pesel = [
   s('lambda'), [s('value')],
   [s('define'), [

@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 
-import { peselSchema } from './schemas.js'
+import { peselSchema } from './employeeForm/schemas.js'
 import { dynamicValidate } from './validate.js'
 
 const app = express()

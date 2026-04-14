@@ -40,8 +40,8 @@ export const pesel = [
     [s('sum'), [s('reduce'), [s('zipWith'), s('weights'), s('digits'), s('mul')], 0, s('add')]],
     [s('expected'), [s('mod'), [s('sub'), 10, [s('mod'), s('sum'), 10]], 10]],
   ], [s('and'),
-    [s('eq'), [s('length'), s('value')], 11],
-    [s('every'), s('digits'), s('isInt')],
-    [s('eq'), [s('nth'), s('digits'), 10], s('expected')],
+  [s('eq'), [s('length'), s('value')], 11],
+  [s('every'), s('digits'), s('isInt')],
+  [s('eq'), [s('nth'), s('digits'), 10], s('expected')],
   ]],
 ]

@@ -159,3 +159,8 @@ button:hover {
   top: 1.5px;
   cursor: pointer;
 }
+
+.response {
+  font-size: 2rem;
+  padding-top: 1rem;
+}

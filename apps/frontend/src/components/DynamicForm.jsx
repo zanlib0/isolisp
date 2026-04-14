@@ -4,7 +4,7 @@ import SelectInput from './SelectInput'
 import RadioInput from './RadioInput'
 import { Form, FormikProvider, useFormik } from 'formik'
 
-export const DynamicForm = ({ schema }) => {
+export const DynamicForm = ({ schema, onSubmit = console.log }) => {
   const { fields, submit } = schema
 
   const initialValues = Object.fromEntries(fields.map(field => ([field.name, ''])))
@@ -20,7 +20,7 @@ export const DynamicForm = ({ schema }) => {
         body: JSON.stringify(values),
       })
 
-      console.log(result)
+      onSubmit(result)
     },
   })
 
